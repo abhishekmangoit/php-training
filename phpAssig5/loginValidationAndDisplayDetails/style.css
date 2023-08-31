@@ -27,6 +27,9 @@ form{
 button{
     width: 50px;
 }
+span{
+    margin-left: 10%;
+}
 .error{
     color: red;
     font-size: small;
@@ -40,8 +43,11 @@ button{
 span{
     text-align: center;
 }
-.indexDiv label{
-    width : 100px;
+.inputField{
+    display: flex;
+    width: 290px;
+    justify-content: space-between;
+    align-items: center;
 }
 .displayDiv{
     border: 3px solid rgb(113, 196, 196);

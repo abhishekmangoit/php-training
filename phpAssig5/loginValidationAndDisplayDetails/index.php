@@ -15,18 +15,31 @@ ini_set('display_errors', 1);
 <body>
     <h3>Login Form</h3>
     <?php
+
     $emailError = $passwordError = $errorMsg = "";
+    function validateEmail($email){
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
         if (empty($_POST["email"])) {
             $emailError = "This field is required";
         } else {
-            $emailError = "";
+            if (!validateEmail($email)) {
+                $emailError = "Invalid email address";
+            } else {
+                $emailError = "";
+            }
+
         }
         if (empty($_POST["password"])) {
             $passwordError = "This field is required";
         } else {
             $passwordError = "";
         }
+
         $servername = "localhost";
         $username = "root";
         $password = "Abhi1234$";
@@ -43,20 +56,23 @@ ini_set('display_errors', 1);
         $details = $conn->query($sql);
 
         if ($details->num_rows > 0) {
-            $matchFound = false;
             while ($row = $details->fetch_assoc()) {
                 if ($row["email"] === $_POST["email"] && $row["password"] === $_POST["password"]) {
                     $matchFound = true;
                     $errorMsg = " ";
-                    $email= $row["email"];
-                    $password =$row["password"];
+                    $email = $row["email"];
+                    $password = $row["password"];
                     header("Location: profileDisplay.php?email=$email");
                     exit;
+                } else {
+                    $matchFound = false;
                 }
             }
-            if (!$matchFound) {
-                $errorMsg = "Invalid email and password entered";
-            } 
+            if(!empty($_POST["email"]) && !empty(($_POST['password']))){
+                if (!$matchFound) {
+                    $errorMsg = "Invalid email and password entered";
+                }
+            }
         } else {
             $errorMsg = "No user found";
         }
@@ -87,7 +103,7 @@ ini_set('display_errors', 1);
         <?php echo $errorMsg ?>
     </div>
     <?php
-   
+
     ?>
 </body>
 

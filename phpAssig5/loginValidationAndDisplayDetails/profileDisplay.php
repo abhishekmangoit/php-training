@@ -51,4 +51,5 @@ ini_set('display_errors', 1);
                     <div class="values">Date Of Birth :<?= $dob ?></div>
         </div>  
 </body>
-</html>          
+</html>  
+        
