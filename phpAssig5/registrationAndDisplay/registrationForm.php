@@ -85,7 +85,7 @@ ini_set('display_errors', 1);
 
     }
 
-    if (!empty($firstname) && !empty($lastname) && !empty($email) && validateEmail($email) && !empty($gender) && !empty($dob) && !empty($password) && validateEmail($password)) {
+    if (!empty($firstname) && !empty($lastname) && !empty($email) && validateEmail($email) && !empty($gender) && !empty($dob) && !empty($password) && validatePassword($password)) {
         $stmt = $conn->prepare("INSERT INTO user (firstname, lastname, email, dob, gender, password) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $firstname, $lastname, $email, $dob, $gender, $password);
 
