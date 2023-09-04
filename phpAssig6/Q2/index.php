@@ -1,14 +1,10 @@
-<?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="productpage.css">
     <title>Product Details</title>
 </head>
 
@@ -49,9 +45,6 @@ ini_set("display_errors", 1);
 
     $sql= "SELECT DISTINCT categoryName FROM category";
     $categories = $conn->query($sql);
-    echo "<pre>";
-    
-
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($_POST['productName'])) {
             $productErr = 'This field is required';
@@ -91,7 +84,6 @@ ini_set("display_errors", 1);
                 }
             }
             $conn->close();
-
         }
     }
     ?>
@@ -113,9 +105,9 @@ ini_set("display_errors", 1);
             </div>
         </div>
         <div class="inputField">
-            <div class="inputBox">
+            <div class="inputBox" >
                 <label for="category">Category :</label>
-                <select name="category[]" id="category" multiple>
+                <select id="categoryinput" name="category[]" id="category" multiple>
                     <?php while($row = $categories->fetch_assoc()){ ?>
                             <option value="<?php echo $row['categoryName'];?>"><?php echo $row['categoryName'];?></option>
                     <?php } ?>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="first.css">
+    <link rel="stylesheet" href="categorypage.css">
     <title>Edit Category Details</title>
 </head>
 
@@ -39,9 +39,9 @@
            
             $sql = "UPDATE category SET categoryName = '$newcategoryName', identifier = '$identifier' WHERE categoryName = '$oldcategoryName'";
             if ($conn->query($sql) === TRUE) {
-                echo "New category added successfully";
+                echo "Category updated successfully";
             } else {
-                echo "Error in inserting record <br>" . $conn->error;
+                echo "Error in updating record <br>" . $conn->error;
             }
 
             $conn->close();

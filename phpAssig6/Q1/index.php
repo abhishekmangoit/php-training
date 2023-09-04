@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="first.css">
+    <link rel="stylesheet" href="categorypage.css">
     <title>Category Details</title>
 </head>
 
@@ -31,7 +31,6 @@
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            echo "<pre>";
             $sql = "SHOW DATABASES LIKE 'store';";
             $result = $conn->query($sql);
             if (mysqli_num_rows($result) === 1) {
@@ -78,9 +77,7 @@
                     echo "Error creating table: ";
                 }
             }
-
             $conn->close();
-
         }
     }
     ?>

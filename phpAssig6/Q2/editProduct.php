@@ -1,14 +1,10 @@
-<?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="productpage.css">
     <title>Edit Product Details</title>
 </head>
 
@@ -52,11 +48,9 @@ ini_set("display_errors", 1);
             if ($conn->query($sql) === TRUE) {
                 echo "Product updated successfully";
             } else {
-                echo "Error in inserting record <br>" . $conn->error;
+                echo "Error in updating record <br>" . $conn->error;
             }
-
             $conn->close();
-
         }
     }
     ?>
@@ -88,8 +82,8 @@ ini_set("display_errors", 1);
         </div>
         <div class="inputField">
             <div class="inputBox">
-                <label for="category">Category :</label>
-                <select name="category[]" id="category" multiple>
+                <label id="categorylabel" for="category">Category :</label>
+                <select id="categoryinput" name="category[]" id="category" multiple>
                     <?php while ($row = $categories->fetch_assoc()) { ?>
                         <option value="<?php echo $row['categoryName']; ?>"><?php echo $row['categoryName']; ?></option>
                     <?php } ?>
