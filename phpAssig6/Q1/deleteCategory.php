@@ -8,8 +8,8 @@
         die("Connection failed: " . $conn->connect_error);
     }
     if ($_SERVER["REQUEST_METHOD"] === "GET") {
-        $categoryName = $_GET['categoryName'];
-        $sql = "DELETE FROM category WHERE categoryName = '$categoryName'";
+        $id = $_GET['id'];
+        $sql = "DELETE FROM category WHERE id = '$id'";
         if ($conn->query($sql) === TRUE) {
             header("Location: displayCategory.php");
         } else {

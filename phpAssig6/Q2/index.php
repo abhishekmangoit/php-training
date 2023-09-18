@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="productpage.css">
+    <link rel="stylesheet" href="product.css">
     <title>Product Details</title>
 </head>
 
 <body>
     <?php
-    $productErr = '';
+    $productErr = $msg ='';
     $servername = "localhost";
     $username = "root";
     $password = "Abhi1234$";
@@ -43,8 +43,9 @@
                 }
             }
 
-    $sql= "SELECT DISTINCT categoryName FROM category";
+    $sql= "SELECT * FROM category";
     $categories = $conn->query($sql);
+
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($_POST['productName'])) {
             $productErr = 'This field is required';
@@ -57,16 +58,16 @@
                 $identifier = str_replace(' ', '-', strtolower($productName));
             }
             $category = $_POST['category'];
-            $categoryArr = implode(", ", $category); 
+            $categoryArr = implode(",", $category); 
             $sql = "SHOW TABLES LIKE '%product%';";
             $result = $conn->query($sql);
             if ($conn->query($sql)) {
-                $sql = "INSERT INTO product (productname, identifier, category)VALUES ('$productName', '$identifier', '$categoryArr')";
+                $sql = "INSERT INTO product (productName, identifier, category)VALUES ('$productName', '$identifier', '$categoryArr')";
 
                 if ($conn->query($sql) === TRUE) {
-                    echo "New product added successfully";
+                    $msg = "New product added successfully";
                 } else {
-                    echo "Error in inserting record <br>" . $conn->error;
+                    $msg= "Error in inserting record <br>" . $conn->error;
                 }
             } else {
                 $sql = "CREATE TABLE `product` (`productName` varchar(50) NOT NULL, `identifier` varchar(50) NOT NULL)";
@@ -74,9 +75,9 @@
                 if ($conn->query($sql) === TRUE) {
                     $sql = "INSERT INTO product (productName, identifier)VALUES (`$productName`, `$identifier`)";
                     if ($conn->query($sql) === TRUE) {
-                        echo "New product added successfully";
+                        $msg = "New product added successfully";
                     } else {
-                        echo "Error in inserting record <br>" . $conn->error;
+                        $msg = "Error in inserting record <br>" . $conn->error;
                     }
 
                 } else {
@@ -84,6 +85,7 @@
                 }
             }
             $conn->close();
+
         }
     }
     ?>
@@ -105,11 +107,11 @@
             </div>
         </div>
         <div class="inputField">
-            <div class="inputBox" >
+            <div class="inputBox">
                 <label for="category">Category :</label>
                 <select id="categoryinput" name="category[]" id="category" multiple>
                     <?php while($row = $categories->fetch_assoc()){ ?>
-                            <option value="<?php echo $row['categoryName'];?>"><?php echo $row['categoryName'];?></option>
+                            <option value="<?php echo $row['id'];?>"><?php echo $row['categoryName'];?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -121,6 +123,9 @@
             </div>
         </div>
     </form>
+    <div class="msg">
+        <?= $msg ?>
+    </div>
 </body>
 
 </html>

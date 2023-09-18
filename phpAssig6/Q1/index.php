@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="categorypage.css">
+    <link rel="stylesheet" href="first.css">
     <title>Category Details</title>
 </head>
 
 <body>
     <?php
-    $categoryErr = '';
+    $categoryErr = $msg ='';
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (empty($_POST['categoryName'])) {
             $categoryErr = 'This field is required';
@@ -59,25 +59,27 @@
                 $sql = "INSERT INTO category (categoryName, identifier)VALUES ('$categoryName', '$identifier')";
 
                 if ($conn->query($sql) === TRUE) {
-                    echo "New category added successfully";
+                    $msg = "New category added successfully";
                 } else {
-                    echo "Error in inserting record <br>" . $conn->error;
+                    $msg = "Error in inserting record <br>" . $conn->error;
                 }
             } else {
                 $sql = "CREATE TABLE `category` (`categoryName` varchar(50) NOT NULL,       `identifier` varchar(50) NOT NULL) ;";
                 if ($conn->query($sql) === TRUE) {
                     $sql = "INSERT INTO category (categoryName, identifier)VALUES ('$categoryName', '$identifier')";
                     if ($conn->query($sql) === TRUE) {
-                        echo "New category added successfully";
+                        $msg =  "New category added successfully";
                     } else {
-                        echo "Error in inserting record <br>" . $conn->error;
+                        $msg = "Error in inserting record <br>" . $conn->error;
                     }
 
                 } else {
                     echo "Error creating table: ";
                 }
             }
+
             $conn->close();
+
         }
     }
     ?>
@@ -105,6 +107,9 @@
             </div>
         </div>
     </form>
+    <div class="msg">
+      <?= $msg ?>
+    </div>
    
 </body>
 

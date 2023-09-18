@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="categorypage.css">
+    <link rel="stylesheet" href="first.css">
     <title>Categories</title>
 </head>
 
@@ -44,8 +44,8 @@
                         <td>
                             <?php echo $row["identifier"] ?>
                         </td>
-                        <td><?php echo "<a href='editCategory.php?categoryName=" . $row['categoryName'] . "'>Edit</a>"; ?></td>
-                        <td><?php echo "<a href='deleteCategory.php?categoryName=" . $row["categoryName"] . "'>Delete</a>"; ?></td>
+                        <td><?php echo "<a href='editCategory.php?id=" . $row['id'] . "'>Edit</a>"; ?></td>
+                        <td><?php echo "<a href='deleteCategory.php?id=" . $row["id"] . "'>Delete</a>"; ?></td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -54,6 +54,7 @@
         echo "error";
     }
     ?>
+    <a href="index.php" class="backBtn"> Back </a>
 </body>
 
 </html>

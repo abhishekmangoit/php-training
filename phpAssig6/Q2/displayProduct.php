@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="productpage.css">
+    <link rel="stylesheet" href="product.css">
     <title>Products Page</title>
 </head>
 
@@ -49,10 +49,10 @@
                             <?php echo $row["category"] ?>
                         </td>
                         <td>
-                            <?php echo "<a href='editProduct.php?productName=" . $row['productName'] . "'>Edit</a>"; ?>
+                            <?php echo "<a href='editProduct.php?id=" . $row['id'] . "'>Edit</a>"; ?>
                         </td>
                         <td>
-                            <?php echo "<a href='deleteProduct.php?productName=" . $row["productName"] . "'>Delete</a>"; ?>
+                            <?php echo "<a href='deleteProduct.php?id=" . $row["id"] . "'>Delete</a>"; ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -62,6 +62,7 @@
         echo "No product is found";
     }
     ?>
+    <a href="index.php">Back</a>
 </body>
 
 </html>
