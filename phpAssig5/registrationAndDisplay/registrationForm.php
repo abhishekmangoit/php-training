@@ -1,7 +1,3 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,13 +14,19 @@ ini_set('display_errors', 1);
     $username = "root";
     $password = "Abhi1234$";
     $dbname = "users";
+    
+    session_start();
+    $_SESSION['firstname'] = '';
+    $_SESSION['lastname'] = '';
+    $_SESSION['email'] = '';
+    $_SESSION['dob'] = '';
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $firstnameError = $lastnameError = $emailError = $dobError = $genderError = $passwordError = '';
+   $msg = $firstnameError = $lastnameError = $emailError = $dobError = $genderError = $passwordError = '';
     function validateEmail($email){
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
@@ -34,7 +36,6 @@ ini_set('display_errors', 1);
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
         $firstname = $_POST["firstName"];
         $lastname = $_POST["lastName"];
         $email = $_POST["email"];
@@ -48,12 +49,15 @@ ini_set('display_errors', 1);
             $firstnameError = "please enter first name";
         } else {
             $firstnameError = " ";
+            $firstname = $_POST["firstName"];
+            $_SESSION['firstname'] = $_POST["firstName"];
         }
 
         if (empty($lastname)) {
             $lastnameError = "please enter last name";
         } else {
             $lastnameError = " ";
+            $_SESSION['lastname'] = $_POST["lastName"];
         }
 
         if (empty($email)) {
@@ -63,6 +67,7 @@ ini_set('display_errors', 1);
                 $emailError = "Invalid email address";
             } else {
                 $emailError = "";
+                $_SESSION['email'] = $_POST["email"];
             }
 
         }
@@ -71,6 +76,7 @@ ini_set('display_errors', 1);
             $dobError = "please enter date of birth";
         } else {
             $dobError = "";
+            $_SESSION['dob'] = $_POST["dob"];
         }
 
         if (!isset($_POST['gender'])) {
@@ -85,11 +91,15 @@ ini_set('display_errors', 1);
 
     }
 
-    if (!empty($firstname) && !empty($lastname) && !empty($email) && validateEmail($email) && !empty($gender) && !empty($dob) && !empty($password) && validatePassword($password)) {
+    if (!empty($firstname) && !empty($lastname) && !empty($email) && validateEmail($email) && isset($_POST['gender']) && !empty($dob) && !empty($password) && validatePassword($password)) {
         $stmt = $conn->prepare("INSERT INTO user (firstname, lastname, email, dob, gender, password) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $firstname, $lastname, $email, $dob, $gender, $password);
 
-        $stmt->execute();
+        if($stmt->execute()){
+            $msg = "registration successfull";
+        }else{
+            $msg = "registration not done ! please try again. ";
+        }
         $stmt->close();
     }
 
@@ -101,7 +111,7 @@ ini_set('display_errors', 1);
         <div class="outerDiv">
             <div class="userInput">
                 <p class="plabels"><label for="firstName">First Name:</label></p>
-                <input type="text" id="firstName" name="firstName" placeholder="Enter first name" />
+                <input type="text" id="firstName" name="firstName" value="<?php echo $_SESSION['firstname'] ; ?>" placeholder="Enter first name" />
             </div>
             <div class="errMsg">
                 <?php echo $firstnameError; ?>
@@ -110,7 +120,7 @@ ini_set('display_errors', 1);
         <div class="outerDiv">
             <div class="userInput">
                 <p class="plabels"><label for="lastName">Last Name:</label></p>
-                <input type="text" id="lastName" name="lastName" placeholder="Enter last name" />
+                <input type="text" id="lastName" name="lastName" value="<?php echo $_SESSION['lastname'] ; ?>" placeholder="Enter last name" />
             </div>
             <div class="errMsg">
                 <?php echo $lastnameError; ?>
@@ -119,7 +129,7 @@ ini_set('display_errors', 1);
         <div class="outerDiv">
             <div class="userInput">
                 <p class="plabels"><label for="email">Email:</label></p>
-                <input type="" id="email" name="email" placeholder="Enter email" />
+                <input type="" id="email" name="email" value="<?php echo $_SESSION['email'] ; ?>" placeholder="Enter email" />
             </div>
             <div class="errMsg">
                 <?php echo $emailError; ?>
@@ -128,7 +138,7 @@ ini_set('display_errors', 1);
         <div class="outerDiv" id="dob">
             <div class="userInput">
                 <p class="plabels"><label for="dob">Date Of Birth:</label></p>
-                <input type="date" id="dob" name="dob" />
+                <input type="date" id="dob" name="dob" value="<?php echo $_SESSION['dob'] ; ?>"/>
             </div>
             <div class="errMsg">
                 <?php echo $dobError; ?>
@@ -158,8 +168,11 @@ ini_set('display_errors', 1);
             <a href="displayDetails.php">Show users</a>
         </div>
     </form>
-
+    <div>
+        <?= $msg ?>
+    </div>
 
 </body>
 
 </html>
+

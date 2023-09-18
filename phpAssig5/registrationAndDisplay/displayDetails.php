@@ -27,34 +27,39 @@
 
         
         if ($details->num_rows > 0) {
-    ?>
-    <table>
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Date Of Birth</th>
-                <th>gender</th>
-            </tr>
-        </thead>
-        <tbody>
-    <?php while($row = $details->fetch_assoc()) { ?>
-        <tr>
-            <td><?php echo $row["firstname"] ?></td>
-            <td><?php echo $row["lastname"] ?></td>
-            <td><?php echo $row["email"] ?></td>
-            <td><?php echo $row["dob"] ?></td>
-            <td><?php echo $row["gender"] ?></td>
-        </tr>
-       
-    <?php } ?>
-    </tbody>
-    </table>
-    <?php } else {
-        echo "No User Found";
+            ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Date Of Birth</th>
+                        <th>gender</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <?php while($row = $details->fetch_assoc()) { ?>
+                <tr>
+                    <td><?php echo $row["firstname"] ?></td>
+                    <td><?php echo $row["lastname"] ?></td>
+                    <td><?php echo $row["email"] ?></td>
+                    <td><?php echo $row["dob"] ?></td>
+                    <td><?php echo $row["gender"] ?></td>
+                </tr>
+            
+            <?php } ?>
+            </tbody>
+            </table>
+            <?php 
+        } else {
+            echo "No User Found";
         }
         $conn->close();
     ?>
+    <div>
+        <a href="registrationForm.php">Back</a>
+    </div>
 </body>
 </html>
+

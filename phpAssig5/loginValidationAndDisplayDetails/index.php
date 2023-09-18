@@ -1,7 +1,3 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +11,8 @@ ini_set('display_errors', 1);
 <body>
     <h3>Login Form</h3>
     <?php
+     session_start();
+     $_SESSION['email'] = '';
 
     $emailError = $passwordError = $errorMsg = "";
     function validateEmail($email){
@@ -31,6 +29,7 @@ ini_set('display_errors', 1);
                 $emailError = "Invalid email address";
             } else {
                 $emailError = "";
+                $_SESSION['email'] = $_POST['email'];
             }
 
         }
@@ -50,8 +49,9 @@ ini_set('display_errors', 1);
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-
-        $sql = "SELECT * FROM `user`;";
+        $email =$_POST["email"];
+        $password =$_POST["password"];
+        $sql = "SELECT * FROM `user` where email='$email' and password = '$password' ;";
 
         $details = $conn->query($sql);
 
@@ -82,7 +82,7 @@ ini_set('display_errors', 1);
         <div class="contain">
             <div class="inputField">
                 <label for="email">Email :</label>
-                <input type="text" id="email" name="email" placeholder="Enter email">
+                <input type="text" id="email" name="email" value="<?php echo $_SESSION['email']; ?>" placeholder="Enter email">
             </div>
             <span class="error">
                 <?php echo $emailError; ?>
@@ -108,5 +108,3 @@ ini_set('display_errors', 1);
 </body>
 
 </html>
-
-

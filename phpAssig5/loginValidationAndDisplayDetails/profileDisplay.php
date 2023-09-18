@@ -1,7 +1,3 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +22,7 @@ ini_set('display_errors', 1);
             die("Connection failed: " . $conn->connect_error);
         }
         
-        $sql = "SELECT * FROM `user`;";
+        $sql = "SELECT * FROM `user` where email = '$email';";
         
         $details = $conn->query($sql);
         
@@ -50,6 +46,9 @@ ini_set('display_errors', 1);
                     <div class="values">Gender : <?= $gender ?></div>
                     <div class="values">Date Of Birth :<?= $dob ?></div>
         </div>  
+        <div>
+            <a href="index.php">Back</a>
+        </div>
 </body>
 </html>  
         
